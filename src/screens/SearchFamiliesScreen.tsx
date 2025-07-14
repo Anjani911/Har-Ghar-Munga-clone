@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Card, Title, Button, Surface, Text, TextInput, Appbar, Chip, Avatar, List, IconButton } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { apiService } from '../utils/api'; // path
+import { useFocusEffect } from '@react-navigation/native';
 
 interface SearchFamiliesScreenProps {
   navigation: any;
@@ -16,70 +18,27 @@ interface FamilyData {
   registrationDate: string;
   plantDistributed: boolean;
 }
-
-// Sample data - यह actual database से आएगा
-const familiesData: FamilyData[] = [
-  {
-    id: '001',
-    childName: 'राहुल कुमार',
-    parentName: 'सुनील कुमार',
-    mobileNumber: '9876543210',
-    village: 'शिवपुर',
-    registrationDate: '13/07/2025', // आज
-    plantDistributed: true,
-  },
-  {
-    id: '002',
-    childName: 'प्रिया शर्मा',
-    parentName: 'राजेश शर्मा',
-    mobileNumber: '9876543211',
-    village: 'रामपुर',
-    registrationDate: '13/07/2025', // आज
-    plantDistributed: false,
-  },
-  {
-    id: '003',
-    childName: 'अनिल सिंह',
-    parentName: 'सीता देवी',
-    mobileNumber: '9876543212',
-    village: 'गोकुलपुर',
-    registrationDate: '12/07/2025', // कल
-    plantDistributed: false,
-  },
-  {
-    id: '004',
-    childName: 'कविता गुप्ता',
-    parentName: 'अशोक गुप्ता',
-    mobileNumber: '9876543213',
-    village: 'शिवपुर',
-    registrationDate: '12/07/2025', // कल
-    plantDistributed: true,
-  },
-  {
-    id: '005',
-    childName: 'विकास यादव',
-    parentName: 'राम यादव',
-    mobileNumber: '9876543214',
-    village: 'नंदपुर',
-    registrationDate: '15/06/2025', // पिछले महीने
-    plantDistributed: false,
-  },
-  {
-    id: '006',
-    childName: 'सुनीता कुमारी',
-    parentName: 'रविंद्र कुमार',
-    mobileNumber: '9876543215',
-    village: 'शिवपुर',
-    registrationDate: '05/07/2025', // इस महीने
-    plantDistributed: true,
-  },
-];
-
 export default function SearchFamiliesScreen({ navigation }: SearchFamiliesScreenProps) {
+  const [familiesData, setFamiliesData] = useState<FamilyData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredFamilies, setFilteredFamilies] = useState<FamilyData[]>(familiesData);
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'today' | 'yesterday' | 'thisMonth' | 'lastMonth'>('all');
 
+useFocusEffect(
+  React.useCallback(() => {
+    const fetchData = async () => {
+      try {
+        const data = await apiService.getFamilies(); // Pulls real data from backend
+        setFamiliesData(data);
+        setFilteredFamilies(data);
+      } catch (error) {
+        console.error('Failed to fetch families:', error);
+      }
+    };
+
+    fetchData();
+  }, [])
+);
   // Helper function to check if date matches filter
   const isDateInRange = (dateString: string, filter: string) => {
     const [day, month, year] = dateString.split('/').map(Number);
