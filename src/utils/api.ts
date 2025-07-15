@@ -154,11 +154,18 @@ class ApiService {
       
       const data = await response.json();
       console.log('Response data:', data);
-      return data;
-    } catch (error) {
-      console.error('API request failed:', error);
-      throw error;
-    }
+      return data;}
+      catch (error: any) {
+      console.error(`API request to ${url} failed.`);
+      if (error?.message) {
+      console.error('Error message:', error.message);
+  }
+      if (typeof error === 'object') {
+    console.error('Full error object:', JSON.stringify(error));
+  }
+    throw error;
+}
+
   }
 
   // Test connection
