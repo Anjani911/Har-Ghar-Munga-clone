@@ -1,17 +1,17 @@
 {
-  "expo": {
+"expo": {
     "name": "HarGharMunga",
     "slug": "HarGharMunga",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "privacy": "public",
+    "platforms": ["ios", "android"],
+    "sdkVersion": "50.0.0",
+    "assetBundlePatterns": ["**/*"],
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#4CAF50",
+      "image": "./assets/image.png",
+      "resizeMode": "contain"
+    }
     },
     "ios": {
       "supportsTablet": true,
@@ -33,4 +33,4 @@
       "favicon": "./assets/favicon.png"
     }
   }
-}
+
