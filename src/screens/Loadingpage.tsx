@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, Image, Animated, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Animated } from 'react-native';
 
 
 const SplashScreen = () => {
@@ -31,7 +30,7 @@ const SplashScreen = () => {
         duration: 800,
         useNativeDriver: true,
       }).start(() => {
-        navigation.replace('Home'); // Replace with actual screen
+        navigation.replace('Home'); // actual screen later
       });
     }
   }, [isAppReady]);
@@ -40,9 +39,9 @@ const SplashScreen = () => {
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <View style={styles.centerContainer}>
         <View style={styles.imageWrapper}>
-          {/* Replace with your image later */}
+          {/*  image later */}
           <Image
-            source={require('../assets/logo_placeholder.png')} // Replace with your image path
+            source={require('../assets/logo_placeholder.png')} //  image path
             style={styles.image}
             resizeMode="contain"
           />
