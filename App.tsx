@@ -138,10 +138,24 @@ function LoginScreen({ navigation }: { navigation: any }) {
       } else {
         Alert.alert('लॉगिन विफल', response.message || 'लॉगिन में त्रुटि हुई।');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('नेटवर्क त्रुटि', `सर्वर से कनेक्ट नहीं हो पा रहा है: ${error}`);
-    } finally {
+    } 
+     catch (error: any) {
+  console.error('Login error:', error);
+  
+  let message = 'सर्वर से कनेक्ट नहीं हो पा रहा है।';
+
+  if (error?.message) {
+    message += `\n${error.message}`;
+  }
+
+  if (typeof error === 'object') {
+    message += `\n${JSON.stringify(error)}`;
+  }
+
+  Alert.alert('नेटवर्क त्रुटि', message);
+}
+
+    finally {
       setLoading(false);
     }
   };
