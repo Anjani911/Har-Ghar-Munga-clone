@@ -34,7 +34,19 @@ function LoadingScreen({ navigation }: { navigation: any }) {
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#4CAF50', padding: 20 }}>
     {/* Top Text */}
     <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold', marginBottom: 20 }}>हर घर मुंगा</Text>
-
+    
+      {/* Square Image with rounded corners */}
+    <Image 
+      source={require('./assets/imagereal.png')}
+      style={{
+        width: 180,
+        height: 180,
+        borderRadius: 20, // Rounded corners instead of circular
+        marginBottom: 40,
+      }}
+      resizeMode="contain"
+    />
+    
     {/* Bottom Text */}
     <View style={{ position: 'absolute', bottom: 30, alignItems: 'center' }}>
       <Text style={{ fontSize: 12, color: '#fff' }}>Powered by</Text>
