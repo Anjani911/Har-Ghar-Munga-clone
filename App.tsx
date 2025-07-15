@@ -20,6 +20,23 @@ import FamilyProgressScreen from './src/screens/FamilyProgressScreen';
 const { width } = Dimensions.get('window');
 const Stack = createStackNavigator();
 
+function LoadingScreen({ navigation }: { navigation: any }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace('Login');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#4CAF50' }}>
+      <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold' }}>हर घर मुंगा</Text>
+      <Text style={{ fontSize: 16, color: '#fff', marginTop: 10 }}>Loading...</Text>
+    </View>
+  );
+}
+
 function LoginScreen({ navigation }: { navigation: any }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,32 +52,24 @@ function LoginScreen({ navigation }: { navigation: any }) {
     setLoading(true);
 
     try {
-      // Test server connection (optional)
-      console.log('Testing connection to server...');
       const connectionTest = await apiService.testConnection();
-      console.log('Connection test result:', connectionTest);
 
       if (!connectionTest.success) {
         Alert.alert('कनेक्शन त्रुटि', `सर्वर से कनेक्ट नहीं हो पा रहा है: ${connectionTest.message}`);
         return;
       }
 
-      console.log('Connection successful, attempting login...');
       const response = await apiService.login(email.trim(), password);
-      console.log('Login response:', response);
 
       if (response.success && response.user) {
         const user = response.user;
 
-        // Store the token if available
         if (response.token) {
           apiService.setToken(response.token);
         }
-        
-        // Navigate based on user role
+
         const userRole = response.user?.role || response.role;
-        console.log('User role:', userRole);
-        
+
         switch (userRole) {
           case 'admin':
             navigation.navigate('AdminDashboard');
@@ -76,9 +85,6 @@ function LoginScreen({ navigation }: { navigation: any }) {
             const motherName = (user as any).mother_name || '';
             const age = (user as any).age || '';
             const aanganwadi_code = (user as any).aanganwadi_code || (user as any).center_code || (user as any).anganwadi_center_code || '';
-            console.log("Aanganwadi code:", aanganwadi_code);
-            console.log("Full user object:", user);
-            console.log("Student details received:", user);
 
             navigation.navigate('FamilyDashboard', {
               userId: userUsername,
@@ -91,16 +97,14 @@ function LoginScreen({ navigation }: { navigation: any }) {
             });
             break;
           default:
-            // If no specific role, try to determine from username or other fields
-            if (response.user?.username?.toUpperCase().includes('ADMIN') || 
+            if (response.user?.username?.toUpperCase().includes('ADMIN') ||
                 response.user?.username?.toUpperCase().includes('CGCO')) {
               navigation.navigate('AdminDashboard');
-            } else if (response.user?.username?.toUpperCase().includes('ANGANWADI') || 
+            } else if (response.user?.username?.toUpperCase().includes('ANGANWADI') ||
                        response.user?.username?.toUpperCase().includes('CGAB')) {
               navigation.navigate('AnganwadiDashboard');
-            } else if (response.user?.username?.toUpperCase().includes('FAMILY') || 
+            } else if (response.user?.username?.toUpperCase().includes('FAMILY') ||
                        response.user?.username?.toUpperCase().includes('CGPV')) {
-              // Family user - extract and pass family details
               const userName = user.name || '';
               const userUsername = user.username || '';
               const guardianName = (user as any).guardian_name || '';
@@ -108,7 +112,7 @@ function LoginScreen({ navigation }: { navigation: any }) {
               const motherName = (user as any).mother_name || '';
               const age = (user as any).age || '';
               const aanganwadi_code = (user as any).aanganwadi_code || (user as any).center_code || (user as any).anganwadi_center_code || '';
-              
+
               navigation.navigate('FamilyDashboard', {
                 userId: userUsername,
                 name: userName,
@@ -134,39 +138,17 @@ function LoginScreen({ navigation }: { navigation: any }) {
     }
   };
 
-
-
-  const handleSignUp = () => {
-    // Add sign up navigation logic
-  };
-
-  // Ensure app content is visible during screen recording
-  useEffect(() => {
-    // Disable any privacy restrictions that might hide content
-    if (Platform.OS === 'android') {
-      // For Android, ensure screen recording is allowed
-      console.log('Screen recording enabled for Android');
-    } else if (Platform.OS === 'ios') {
-      // For iOS, ensure screen recording is allowed
-      console.log('Screen recording enabled for iOS');
-    }
-  }, []);
-
   return (
     <KeyboardAvoidingView 
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
         <StatusBar style="light" />
-        
-        {/* Background Gradient */}
         <LinearGradient
           colors={['#2E7D32', '#4CAF50', '#66BB6A']}
           style={styles.backgroundGradient}
         />
-        
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          {/* Header */}
           <Surface style={styles.header}>
             <View style={styles.logoContainer}>
               <View style={styles.logoCircle}>
@@ -178,13 +160,10 @@ function LoginScreen({ navigation }: { navigation: any }) {
             </View>
           </Surface>
 
-          {/* Login Card */}
           <Card style={styles.loginCard}>
             <Card.Content>
               <Title style={styles.loginTitle}>लॉगिन करें</Title>
-              <Paragraph style={styles.loginSubtitle}>
-                हर घर मुंगा अभियान में आपका स्वागत है
-              </Paragraph>
+              <Paragraph style={styles.loginSubtitle}>हर घर मुंगा अभियान में आपका स्वागत है</Paragraph>
 
               <TextInput
                 label="उपयोगकर्ता नाम"
@@ -195,7 +174,6 @@ function LoginScreen({ navigation }: { navigation: any }) {
                 left={<TextInput.Icon icon="account" />}
                 theme={{ colors: { primary: '#2E7D32' } }}
               />
-
               <TextInput
                 label="पासवर्ड"
                 value={password}
@@ -226,13 +204,12 @@ function LoginScreen({ navigation }: { navigation: any }) {
             </Card.Content>
           </Card>
 
-          {/* Powered by SSIPMT */}
           <View style={styles.poweredByContainer}>
             <Text style={styles.poweredByText}>Powered by</Text>
             <Text style={styles.ssimptText}>SSIPMT RAIPUR</Text>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -241,11 +218,10 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator 
-          initialRouteName="Login"
-          screenOptions={{
-            headerShown: false,
-          }}
+          initialRouteName="Loading"
+          screenOptions={{ headerShown: false }}
         >
+          <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="AnganwadiDashboard" component={AnganwadiDashboard} />
           <Stack.Screen name="FamilyDashboard" component={FamilyDashboard} />
@@ -335,7 +311,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     width: '100%',
   },
-
   loginCard: {
     borderRadius: 20,
     elevation: 12,
@@ -367,7 +342,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 12,
   },
-
   loginButton: {
     borderRadius: 12,
     marginBottom: 32,
