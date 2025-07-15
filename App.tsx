@@ -4,6 +4,7 @@ import { Provider as PaperProvider, Card, Title, Paragraph, Button, Surface, Tex
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { apiService, LoginResponse } from './src/utils/api';
+import { Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -31,11 +32,18 @@ function LoadingScreen({ navigation }: { navigation: any }) {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#4CAF50' }}>
+      <Image 
+       source={require('./assets/imagereal.png')}
+        style={{ width: 150, height: 150, borderRadius: 75, marginBottom: 20 }}
+        resizeMode="contain"
+      />
       <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold' }}>हर घर मुंगा</Text>
       <Text style={{ fontSize: 16, color: '#fff', marginTop: 10 }}>Loading...</Text>
+      <Text style={{ fontSize: 12, color: '#fff', marginTop: 20 }}>Powered by SSIPMT Raipur</Text>
     </View>
   );
 }
+
 
 function LoginScreen({ navigation }: { navigation: any }) {
   const [email, setEmail] = useState('');
