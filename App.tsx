@@ -20,7 +20,6 @@ import FamilyProgressScreen from './src/screens/FamilyProgressScreen';
 
 const { width } = Dimensions.get('window');
 const Stack = createStackNavigator();
-
 function LoadingScreen({ navigation }: { navigation: any }) {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,6 +52,7 @@ return (
 
 
 }
+
 
 
 function LoginScreen({ navigation }: { navigation: any }) {
