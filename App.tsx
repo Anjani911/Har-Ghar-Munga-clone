@@ -31,29 +31,24 @@ function LoadingScreen({ navigation }: { navigation: any }) {
   }, []);
 
 return (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#4CAF50', padding: 20 }}>
-    
-    {/* Top Loading Text */}
-    <Text style={{ fontSize: 18, color: '#fff', marginBottom: 20 }}>Loading...</Text>
+<View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#4CAF50', paddingVertical: 40 }}>
+  <Text style={{ fontSize: 16, color: '#fff', marginTop: 20 }}>Loading...</Text>
 
-    {/* Circular Image */}
+  <View style={{ alignItems: 'center' }}>
     <Image 
       source={require('./assets/imagereal.png')}
-      style={{
-        width: 150,
-        height: 150,
-        borderRadius: 75, // 👈 Circular shape
-        marginBottom: 40,
-      }}
+      style={{ width: 150, height: 150, borderRadius: 150, marginBottom: 10 }}
       resizeMode="contain"
     />
-
-    {/* Bottom Credits */}
-    <View style={{ position: 'absolute', bottom: 30, alignItems: 'center' }}>
-      <Text style={{ fontSize: 12, color: '#fff' }}>Powered by</Text>
-      <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff', letterSpacing: 1 }}>SSIPMT</Text>
-    </View>
+    <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold' }}>हर घर मुंगा</Text>
   </View>
+
+  <View style={{ alignItems: 'center' }}>
+    <Text style={{ fontSize: 12, color: '#fff', opacity: 0.7 }}>Powered by</Text>
+    <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold', letterSpacing: 1.5 }}>SSIPMT</Text>
+  </View>
+</View>
+
 );
 
 
